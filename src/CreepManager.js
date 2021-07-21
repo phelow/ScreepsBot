@@ -1,5 +1,4 @@
 var CreepManager = {
-
     EvaluateCreep: function (creep) {
         if (creep.store.getFreeCapacity() > 0) {
             var source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
