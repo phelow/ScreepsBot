@@ -24,19 +24,24 @@ var Spawner = {
 
         for (const i in Game.creeps) {
             var creep = Game.spawns[i];
-            currentTypes[creep.memory.role] = currentTypes[creep.memory.role] + 1; 
+            currentTypes[creep.memory.role] = currentTypes[creep.memory.role] + 1;
         }
 
-        currentTypes.Sort(sortByCount);
-        
+        var neededType = "Worker";
 
-        return currentTypes[0];
+        for (const i in currentTypes) {
+            if (currentTypes[i].creepCount < currentTypes[neededType].creepCount) {
+                neededType = i;
+            }
+        }
+
+        return currentTypes[neededType];
     },
 
-    generateCreepName: function(roleName) {
+    generateCreepName: function (roleName) {
         // Generate a creep name based on the role and add a suffix to make it unique
         var i = 0;
-        while(Game.creeps[(roleName + '_' + i)]) {
+        while (Game.creeps[(roleName + '_' + i)]) {
             i++;
         }
 
@@ -47,9 +52,12 @@ var Spawner = {
         for (const i in Game.spawns) {
             var spawn = Game.spawns[i];
             var creepBodyToSpawn = this.generateCreepBody(spawn);
+            console.log("creepBodyToSpawn");
+            console.log(creepBodyToSpawn);
+            spawn.spawnCreep(creepBodyToSpawn.creepBody, this.generateCreepName(creepBodyToSpawn.creepName), {
+                memory: { role: creepBodyToSpawn.creepName }
+            });
 
-            spawn.spawnCreep(creepBodyToSpawn.creepBody, this.generateCreepName(creepBodyToSpawn.creepName), { creepBodyToSpawn.creepName});
-            
         }
     }
 
