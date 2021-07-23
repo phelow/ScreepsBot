@@ -16,10 +16,10 @@ var Spawner = {
 
         // We pretend we already have some of the units because we want to get some units first before spawning those.
         var currentTypes = {
-            "Worker": creepType("Worker", 0, [WORK, MOVE, CARRY]),
-            "Carrier": creepType("Carrier", 1, [CARRY, MOVE]),
-            "Miner": creepType("Miner", 2, [WORK, MOVE]),
-            "Melee": creepType("Miner", 2, [WORK, ATTACK])
+            "Worker": new creepType("Worker", 0, [WORK, MOVE, CARRY]),
+            "Carrier": new creepType("Carrier", 1, [CARRY, MOVE]),
+            "Miner": new creepType("Miner", 2, [WORK, MOVE]),
+            "Melee": new creepType("Miner", 2, [WORK, ATTACK])
         };
 
         for (const i in Game.creeps) {
@@ -46,7 +46,7 @@ var Spawner = {
     CheckForSpawns: function () {
         for (const i in Game.spawns) {
             var spawn = Game.spawns[i];
-            var creepBodyToSpawn = generateCreepBody(spawn);
+            var creepBodyToSpawn = this.generateCreepBody(spawn);
 
             spawn.spawnCreep(creepBodyToSpawn.creepBody, this.generateCreepName(creepBodyToSpawn.creepName), { creepBodyToSpawn.creepName});
             
