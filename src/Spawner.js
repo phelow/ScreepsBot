@@ -52,8 +52,6 @@ var Spawner = {
         for (const i in Game.spawns) {
             var spawn = Game.spawns[i];
             var creepBodyToSpawn = this.generateCreepBody(spawn);
-            console.log("creepBodyToSpawn");
-            console.log(creepBodyToSpawn);
             spawn.spawnCreep(creepBodyToSpawn.creepBody, this.generateCreepName(creepBodyToSpawn.creepName), {
                 memory: { role: creepBodyToSpawn.creepName }
             });
