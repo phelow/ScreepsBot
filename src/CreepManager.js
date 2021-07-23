@@ -1,6 +1,6 @@
 var CreepManager = {
     EvaluateCreep: function (creep) {
-        const target = creep.pos.findClosestByPath(FIND_MY_SPAWNS, { maxOps: 100 });
+        const target = creep.pos.findClosestByPath(FIND_HOSTILE_CREEPS, { maxOps: 100 });
         if (target != null)
         {
             creep.moveTo(target);
