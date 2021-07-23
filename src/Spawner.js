@@ -1,4 +1,38 @@
 var Spawner = {
+
+    sortByCount: function (a, b) {
+        return a.value.creepCount > b.value.creepCount;
+    },
+
+    generateCreepBody: function (spawn) {
+
+        let creepType = class {
+            constructor(creepName, creepCount, creepBody) {
+                this.creepName = creepName;
+                this.creepCount = creepCount;
+                this.creepBody = creepBody;
+            }
+        };
+
+        // We pretend we already have some of the units because we want to get some units first before spawning those.
+        var currentTypes = {
+            "Worker": creepType("Worker", 0, [WORK, MOVE, CARRY]),
+            "Carrier": creepType("Carrier", 1, [CARRY, MOVE]),
+            "Miner": creepType("Miner", 2, [WORK, MOVE]),
+            "Melee": creepType("Miner", 2, [WORK, ATTACK])
+        };
+
+        for (const i in Game.creeps) {
+            var creep = Game.spawns[i];
+            currentTypes[creep.memory.role] = currentTypes[creep.memory.role] + 1; 
+        }
+
+        currentTypes.Sort(sortByCount);
+        
+
+        return currentTypes[0];
+    },
+
     generateCreepName: function(roleName) {
         // Generate a creep name based on the role and add a suffix to make it unique
         var i = 0;
@@ -11,9 +45,11 @@ var Spawner = {
 
     CheckForSpawns: function () {
         for (const i in Game.spawns) {
-            if (Game.spawns[i].store.getFreeCapacity(RESOURCE_ENERGY) == 0) {
-                Game.spawns[i].spawnCreep([WORK, CARRY, RANGED_ATTACK, MOVE], this.generateCreepName('harvester'), { });
-            }
+            var spawn = Game.spawns[i];
+            var creepBodyToSpawn = generateCreepBody(spawn);
+
+            spawn.spawnCreep(creepBodyToSpawn.creepBody, this.generateCreepName(creepBodyToSpawn.creepName), { creepBodyToSpawn.creepName});
+            
         }
     }
 
