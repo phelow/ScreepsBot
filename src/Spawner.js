@@ -23,7 +23,7 @@ var Spawner = {
         };
 
         for (const i in Game.creeps) {
-            var creep = Game.spawns[i];
+            var creep = Game.creeps[i];
             currentTypes[creep.memory.role] = currentTypes[creep.memory.role] + 1;
         }
 
